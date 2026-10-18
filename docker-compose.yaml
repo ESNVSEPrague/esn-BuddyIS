@@ -82,7 +82,7 @@ services:
       retries: 10
 
   minio:
-    image: bitnami/minio
+    image: bitnamilegacy/minio
 
     environment:
       MINIO_ROOT_USER: 'contember'
