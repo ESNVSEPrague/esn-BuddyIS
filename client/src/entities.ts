@@ -248,7 +248,6 @@ export type Event <OverRelation extends string | never = never> = {
 		| Omit<{ id: string}, OverRelation>
 		| Omit<{ registrations: EventRegistration['unique']}, OverRelation>
 		| Omit<{ registeredCount: RegisteredCount['unique']}, OverRelation>
-		| Omit<{ contactPerson: Person['unique']}, OverRelation>
 	columns: {
 		id: string
 		createdAt: string
@@ -405,7 +404,6 @@ export type Image <OverRelation extends string | never = never> = {
 		userProfilePictureByAgeView: { entity: Person; by: {ageView: PersonAgeView['unique']}  }
 		eventPictureByRegistrations: { entity: Event; by: {registrations: EventRegistration['unique']}  }
 		eventPictureByRegisteredCount: { entity: Event; by: {registeredCount: RegisteredCount['unique']}  }
-		eventPictureByContactPerson: { entity: Event; by: {contactPerson: Person['unique']}  }
 		partyPictureByHours: { entity: N2nParty; by: {hours: N2nHour['unique']}  }
 	}
 }
@@ -582,13 +580,13 @@ export type Person <OverRelation extends string | never = never> = {
 		faculty: Faculty
 		studyProgram: StudyProgram
 		countryOfUniversity: Country
-		organizedEvents: Event
 		internationalBuddyPair: BuddyPair
 		applicationsFr: ApplicationFr
 		profilePicture: Image
 		ageView: PersonAgeView
 	}
 	hasMany: {
+		organizedEvents: Event<'contactPerson'>
 		czechBuddyPair: BuddyPair<'czechStudent'>
 		applications: ApplicationCz<'person'>
 		n2nHours: N2nHour
@@ -600,6 +598,8 @@ export type Person <OverRelation extends string | never = never> = {
 		languages: Language
 	}
 	hasManyBy: {
+		organizedEventsByRegistrations: { entity: Event; by: {registrations: EventRegistration['unique']}  }
+		organizedEventsByRegisteredCount: { entity: Event; by: {registeredCount: RegisteredCount['unique']}  }
 		czechBuddyPairByInternationalStudent: { entity: BuddyPair; by: {internationalStudent: Person['unique']}  }
 		czechBuddyPairByNotes: { entity: BuddyPair; by: {notes: Note['unique']}  }
 		czechBuddyPairByTasks: { entity: BuddyPair; by: {tasks: BuddyTask['unique']}  }
@@ -669,7 +669,6 @@ export type Section <OverRelation extends string | never = never> = {
 	hasManyBy: {
 		eventsByRegistrations: { entity: Event; by: {registrations: EventRegistration['unique']}  }
 		eventsByRegisteredCount: { entity: Event; by: {registeredCount: RegisteredCount['unique']}  }
-		eventsByContactPerson: { entity: Event; by: {contactPerson: Person['unique']}  }
 	}
 }
 export type Semester <OverRelation extends string | never = never> = {
@@ -703,7 +702,6 @@ export type Semester <OverRelation extends string | never = never> = {
 	hasManyBy: {
 		eventsByRegistrations: { entity: Event; by: {registrations: EventRegistration['unique']}  }
 		eventsByRegisteredCount: { entity: Event; by: {registeredCount: RegisteredCount['unique']}  }
-		eventsByContactPerson: { entity: Event; by: {contactPerson: Person['unique']}  }
 		applicationsByHowManyBuddiesAssigned: { entity: ApplicationCz; by: {howManyBuddiesAssigned: howManyBuddiesAssigned['unique']}  }
 		applicationsByStatus: { entity: ApplicationCz; by: {status: ApplicationCzStatus['unique']}  }
 		applicationsByHasPair: { entity: ApplicationCz; by: {hasPair: Paired['unique']}  }

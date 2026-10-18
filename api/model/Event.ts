@@ -49,7 +49,7 @@ export class Event {
 	waitingList = c.intColumn()
 	section = c.manyHasOne(Section, 'events').setNullOnDelete()
 	status = c.enumColumn(eventStatus)
-	contactPerson = c.oneHasOne(Person, 'organizedEvents')
+	contactPerson = c.manyHasOne(Person, 'organizedEvents')
 	semester = c.manyHasOne(Semester, 'events').setNullOnDelete()
 	private = c.boolColumn()
 	allowRegistrationWithoutPayment = c.boolColumn()
